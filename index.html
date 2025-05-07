@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Build a C HTTP Server with Sockets</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 2rem;
+      background: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 2rem;
+      box-shadow: 0 0 20px rgba(0,0,0,0.05);
+      border-radius: 8px;
+    }
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+    code {
+      background: #f0f0f0;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    pre {
+      background: #272822;
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    @media (max-width: 600px) {
+      body, .container {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Building a Simple HTTP Server in C</h1>
+    <p>This guide shows you how to build a basic HTTP server using C sockets. When a browser accesses <code>http://localhost:8080/index.html</code>, the server responds with this HTML page.</p>
+
+    <h2>Step 1: Create a TCP Socket</h2>
+    <pre><code>int server_fd = socket(AF_INET, SOCK_STREAM, 0);</code></pre>
+
+    <h2>Step 2: Bind and Listen</h2>
+    <pre><code>struct sockaddr_in addr;
+addr.sin_family = AF_INET;
+addr.sin_port = htons(8080);
+addr.sin_addr.s_addr = INADDR_ANY;
+
+bind(server_fd, (struct sockaddr*)&addr, sizeof(addr));
+listen(server_fd, 10);</code></pre>
+
+    <h2>Step 3: Accept Connections</h2>
+    <pre><code>int client_fd = accept(server_fd, NULL, NULL);</code></pre>
+
+    <h2>Step 4: Send HTTP Response with File Content</h2>
+    <p>Send an HTTP header and then stream the contents of <code>index.html</code>:</p>
+    <pre><code>send(client_fd, "HTTP/1.1 200 OK\r\n...", ...);
+read(file, buffer, ...);
+send(client_fd, buffer, ...);</code></pre>
+
+    <h2>Done!</h2>
+    <p>With these steps, you have a minimal server that can serve static files like this one.</p>
+    <p>Try viewing it in your browser or with <code>curl http://localhost:8080/index.html</code>.</p>
+  </div>
+</body>
+</html>
+
