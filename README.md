@@ -11,14 +11,18 @@ A minimalist HTTP server written in C that serves an `index.html` file on port 8
 
 ## Build
 ```bash
-gcc server.c -o server -pthread
+gcc -Wall server.c -o server -pthread
 ```
 
 ## Run
 ```bash
 ./server
 ```
-
+# Makefile
+```bash
+make
+make clean
+```
 1. Place an `index.html` file in the same directory as the server.
 2. Open a browser and navigate to `http://localhost:8080`.
 
