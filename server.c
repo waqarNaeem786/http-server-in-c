@@ -111,8 +111,6 @@ int main(){
    address.sin_addr.s_addr = htonl(INADDR_ANY);
   
    // resue of address
-     // // Since the tester restarts your program quite often, setting SO_REUSEADDR
-  // // ensures that we don't run into 'Address already in use' errors
   int reuse = 1;
   if (setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &reuse, sizeof(reuse)) < 0) {
     printf("SO_REUSEADDR failed: %s \n", strerror(errno));
@@ -138,7 +136,7 @@ int main(){
 
       pthread_t tid;
       pthread_create(&tid, NULL, handle_client_thread, pclient);
-      pthread_detach(tid);  // Optional: auto-cleanup thread
+      pthread_detach(tid);  // auto-cleanup thread
     }
  
 }
